@@ -5,4 +5,6 @@ from .serializers import StudentSerializer
 class StudentViewSet(viewsets.ModelViewSet):
     queryset = Student.objects.all().order_by('-id')
     serializer_class = StudentSerializer
-    filterset_fields = ['name', 'email']
+    search_fields = ['name', 'email']
+    filterset_fields = ['date_of_birth']
+    # filterset_fields = ['name', 'email']
