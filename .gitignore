@@ -1,0 +1,39 @@
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore environment variables
+.env
+*.env
+
+# Ignore Django migrations (optional, but useful if you're not tracking migrations)
+migrations/
+
+# Ignore logs and cache
+logs/
+*.log
+*.pot
+*.pid
+*.swp
+*.swo
+
+# Ignore media/uploads (optional)
+media/
+uploads/
+
+# Ignore Django secret key (if stored in a file)
+secrets.json
+
+# Ignore VS Code, JetBrains, and system files
+.vscode/
+.idea/
+.DS_Store
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore node_modules (if using React in the same repo)
+node_modules/
