@@ -5,8 +5,8 @@ __pycache__/
 *.pyd
 
 # Ignore environment variables
-.env
-*.env
+#.env
+#*.env
 
 # Ignore Django migrations (optional, but useful if you're not tracking migrations)
 migrations/
