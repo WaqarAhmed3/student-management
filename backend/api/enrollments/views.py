@@ -7,6 +7,12 @@ from api.students.models import Student
 from api.courses.models import Course
 from api.pagination import StandardResultsSetPagination  # Import pagination class
 from django.db.models import Count
+from .services import (
+    get_students_and_courses,
+    # get_enrollments,
+    get_enrollments_per_course,
+    get_student_distribution
+)
 
 class EnrollmentViewSet(viewsets.ModelViewSet):
     queryset = Enrollment.objects.all().order_by('-enrollment_date')
@@ -15,31 +21,22 @@ class EnrollmentViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'])
     def get_create(self, request):
-        students = Student.objects.all().values('id', 'name')
-        courses = Course.objects.all().values('id', 'course_name')
-        return Response({
-            'students': students,
-            'courses': courses
-        })
+        """Fetch students and courses for enrollment"""
+        return Response(get_students_and_courses())
 
     def get_queryset(self):
         return Enrollment.objects.select_related('student', 'course').all()
 
+    # def get_queryset(self):
+    #     """Override queryset to use service function"""
+    #     return get_enrollments()
     
     @action(detail=False, methods=['get'])
     def enrollments_per_course(self, request):
-        data = (
-            Enrollment.objects.values('course__course_name')
-            .annotate(count=Count('id'))
-            .order_by('-count')
-        )
-        return Response(data)
+        """Get enrollment count per course"""
+        return Response(get_enrollments_per_course())
 
     @action(detail=False, methods=['get'])
     def student_distribution(self, request):
-        data = (
-            Enrollment.objects.values('course__course_name')
-            .annotate(count=Count('student_id'))
-            .order_by('-count')
-        )
-        return Response(data)
+        """Get student count per course"""
+        return Response(get_student_distribution())
