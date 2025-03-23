@@ -4,12 +4,15 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Button,
   Grid,
 } from "@mui/material";
-import axios from "axios";
 import CustomDropdown from "../UI/CustomDropdown";
+import {
+  createEnrollment,
+  getEnrollmentFormData,
+  updateEnrollment,
+} from "../../services/enrollmentService";
 
 interface EnrollmentFormProps {
   open: boolean;
@@ -29,19 +32,47 @@ const EnrollmentForm = ({
   const [formData, setFormData] = useState({
     student: enrollment?.student?.id || "",
     course: enrollment?.course?.id || "",
-    enrollment_date: enrollment?.enrollment_date || "",
   });
 
   useEffect(() => {
+    console.log("Dialog open state changed:", open);
+    console.log("Current enrollment prop:", enrollment);
     if (open) {
-      axios
-        .get("http://127.0.0.1:8000/api/enrollments/get_create/")
-        .then((response) => {
-          setStudents(response.data.students);
-          setCourses(response.data.courses);
-        });
+      getEnrollmentFormData().then((response) => {
+        setStudents(response.students);
+        setCourses(response.courses);
+        // If enrollment exists, find matching student and course IDs
+        if (enrollment) {
+          let studentId = "";
+          let courseId = "";
+
+          if (enrollment?.student_name) {
+            const foundStudent = response.students.find(
+              (student: any) => student.name === enrollment.student_name
+            );
+            studentId = foundStudent ? foundStudent.id.toString() : "";
+          }
+
+          // Do the same for course_name
+          if (enrollment?.course_name) {
+            const foundCourse = response.courses.find(
+              (course: any) => course.course_name === enrollment.course_name
+            );
+            courseId = foundCourse ? foundCourse.id.toString() : "";
+          }
+
+          // Update formData with the matching IDs
+          setFormData({
+            student: studentId,
+            course: courseId,
+          });
+        }
+      });
+    } else {
+      // Reset form when closing
+      setFormData({ student: "", course: "" });
     }
-  }, [open]);
+  }, [open, enrollment]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -49,16 +80,12 @@ const EnrollmentForm = ({
       const payload = {
         student: formData.student,
         course: formData.course,
-        enrollment_date: formData.enrollment_date,
       };
 
       if (enrollment) {
-        await axios.put(
-          `http://127.0.0.1:8000/api/enrollments/${enrollment.id}/`,
-          payload
-        );
+        await updateEnrollment(enrollment.id, payload);
       } else {
-        await axios.post("http://127.0.0.1:8000/api/enrollments/", payload);
+        await createEnrollment(payload);
       }
       onSave();
       onClose();
@@ -102,20 +129,6 @@ const EnrollmentForm = ({
                   label: course.course_name,
                 }))}
                 onClear={() => setFormData({ ...formData, course: "" })}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                // fullWidth
-                sx={{ width: "263px" }}
-                label="Enrollment Date"
-                type="date"
-                InputLabelProps={{ shrink: true }}
-                value={formData.enrollment_date}
-                onChange={(e) =>
-                  setFormData({ ...formData, enrollment_date: e.target.value })
-                }
-                required
               />
             </Grid>
           </Grid>

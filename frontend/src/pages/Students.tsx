@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import axios from "axios";
 import StudentForm from "../components/students/StudentForm";
+import { deleteStudent, getStudents } from "../services/studentService";
 
 interface Student {
   id: number;
@@ -55,8 +55,8 @@ const Students = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/students/");
-      setStudents(response.data.results);
+      const data = await getStudents();
+      setStudents(data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching students:", error);
@@ -76,7 +76,7 @@ const Students = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/students/${id}`);
+      await deleteStudent(id);
       fetchStudents();
     } catch (error) {
       console.error("Error deleting student:", error);

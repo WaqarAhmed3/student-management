@@ -10,8 +10,11 @@ import {
 } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import axios from "axios";
 import EnrollmentForm from "../components/enrollments/EnrollmentForm";
+import {
+  deleteEnrollment,
+  getEnrollments,
+} from "../services/enrollmentService";
 
 interface Enrollment {
   id: number;
@@ -68,17 +71,9 @@ const Enrollments = () => {
     setLoading(true);
     try {
       // DRF's pagination expects page numbers starting from 1, so adjust as needed
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/enrollments/",
-        {
-          params: {
-            page: page + 1, // Convert zero-based page to one-based page
-            page_size: pageSize,
-          },
-        }
-      );
-      setEnrollments(response.data.results);
-      setTotalCount(response.data.count);
+      const data = await getEnrollments(page, pageSize);
+      setEnrollments(data.results);
+      setTotalCount(data.count);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -98,7 +93,8 @@ const Enrollments = () => {
 
   const handleDelete = async (id: number) => {
     try {
-      await axios.delete(`http://127.0.0.1:8000/api/enrollments/${id}`);
+      await deleteEnrollment(id);
+      // Optionally, update state after deletion:
       setEnrollments((prev) => prev.filter((e) => e.id !== id));
     } catch (error) {
       console.error("Error deleting enrollment:", error);
@@ -149,7 +145,10 @@ const Enrollments = () => {
       <EnrollmentForm
         open={openForm}
         enrollment={selectedEnrollment}
-        onClose={() => setOpenForm(false)}
+        onClose={() => {
+          setOpenForm(false);
+          setSelectedEnrollment(null);
+        }}
         onSave={handleSave}
       />
     </Box>

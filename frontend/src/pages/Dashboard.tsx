@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Grid, Paper, Typography, CircularProgress, Box } from "@mui/material";
-import axios from "axios";
 import {
   BarChart,
   Bar,
@@ -13,6 +12,10 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import {
+  getEnrollmentsPerCourse,
+  getStudentDistribution,
+} from "../services/enrollmentService";
 
 interface ChartData {
   course: string;
@@ -38,28 +41,12 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [enrollmentsRes, distributionRes] = await Promise.all([
-          axios.get(
-            "http://127.0.0.1:8000/api/enrollments/enrollments_per_course/"
-          ),
-          axios.get(
-            "http://127.0.0.1:8000/api/enrollments/student_distribution/"
-          ),
+        const [enrollmentsData, distributionData] = await Promise.all([
+          getEnrollmentsPerCourse(),
+          getStudentDistribution(),
         ]);
-
-        setEnrollmentsPerCourse(
-          enrollmentsRes.data.map((item: any) => ({
-            course: item.course__course_name,
-            count: item.count,
-          }))
-        );
-
-        setStudentDistribution(
-          distributionRes.data.map((item: any) => ({
-            course: item.course__course_name,
-            count: item.count,
-          }))
-        );
+        setEnrollmentsPerCourse(enrollmentsData);
+        setStudentDistribution(distributionData);
 
         setLoading(false);
       } catch (error) {

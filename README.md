@@ -19,7 +19,7 @@ A full-stack application for managing student enrollments in courses, built with
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/student-management.git
+   git clone https://github.com/WaqarAhmed3/student-management.git
    cd student-management
    ```
 
@@ -62,7 +62,7 @@ A full-stack application for managing student enrollments in courses, built with
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/student-management.git
+   git clone https://github.com/WaqarAhmed3/student-management.git
    cd student-management
    cd backend
    ```
@@ -107,7 +107,7 @@ A full-stack application for managing student enrollments in courses, built with
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/yourusername/student-management.git
+   git clone https://github.com/WaqarAhmed3/student-management.git
    cd student-management
    cd frontend
    ```
