@@ -7,10 +7,6 @@ import {
   TextField,
   Button,
   Grid,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
 } from "@mui/material";
 import axios from "axios";
 import CustomDropdown from "../UI/CustomDropdown";

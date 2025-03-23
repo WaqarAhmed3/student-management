@@ -6,10 +6,6 @@ import {
   DialogActions,
   TextField,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
   Grid,
 } from "@mui/material";
 import axios from "axios";
