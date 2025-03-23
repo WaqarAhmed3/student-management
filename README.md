@@ -14,6 +14,77 @@ A full-stack application for managing student enrollments in courses, built with
 - **Backend**: Django 4.1, DRF, MySQL
 - **Containerization**: Docker, docker-compose
 
+## Project Structure
+
+```
+student-management/
+├── backend/          # Django backend
+│   ├── api/          # API endpoints
+│   └── └── courses
+│   └── └── └── models.py
+│   └── └── └── serializers.py
+│   └── └── └── urls.py
+│   └── └── └── views.py
+│   └── └── enrollments
+│   └── └── └── models.py
+│   └── └── └── services.py
+│   └── └── └── serializers.py
+│   └── └── └── urls.py
+│   └── └── └── views.py
+│   └── └── students
+│   └── └── └── models.py
+│   └── └── └── serializers.py
+│   └── └── └── urls.py
+│   └── └── └── views.py
+│   └── └── management
+│   └── └── └── commands
+│   └── └── └── └── seed_data.py
+│   └── └── app.py
+│   └── └── pagination.py
+│   └── config/       # Django settings
+│   └── └── settings.py
+│   └── └── urls.py
+│   └── Dockerfile
+│   └── manage.py
+│   └── requirements.txt
+├── frontend/         # React frontend
+│   ├── src/
+│   ├── ├── components/
+│   ├── ├── ├── courses/
+│   ├── ├── ├── ├── CourseForm.tsx
+│   ├── ├── ├── enrollments/
+│   ├── ├── ├── ├── EnrollmentForm.tsx
+│   ├── ├── ├── students/
+│   ├── ├── ├── ├── StudentForm.tsx
+│   ├── ├── ├── layout/
+│   ├── ├── ├── ├── AppBar.tsx
+│   ├── ├── ├── ├── Layout.tsx
+│   ├── ├── ├── ├── sidebar.tsx
+│   ├── ├── ├── UI/
+│   ├── ├── ├── ├── CustomDropdown.tsx
+│   ├── ├── pages/
+│   ├── ├── ├── Courses.tsx
+│   ├── ├── ├── Dashboard.tsx
+│   ├── ├── ├── Enrollments.tsx
+│   ├── ├── ├── Students.tsx
+│   ├── ├── services/
+│   ├── ├── ├── courseService.ts
+│   ├── ├── ├── enrollmentService.ts
+│   ├── ├── ├── studentService.ts
+│   ├── ├── types/
+│   ├── ├── ├── courseTypes.ts
+│   ├── ├── ├── enrollmentTypes.ts
+│   ├── ├── ├── studentTypes.ts
+│   ├── ├── App.tsx
+│   ├── ├── index.tsx
+│   └── Dockerfile
+│   └── package.json
+├── .env
+├── .gitignore
+├── docker-compose.yml
+└── README.md
+```
+
 ## Setup (Docker)
 
 1. **Clone the repository**
@@ -65,7 +136,7 @@ A full-stack application for managing student enrollments in courses, built with
 3. **Build and start containers (From the root directory (student-management/))**
 
    ```bash
-   docker-compose up --build
+   docker-compose up
    ```
 
    This command builds the Docker images and starts the backend, frontend, and database services.
@@ -163,34 +234,16 @@ A full-stack application for managing student enrollments in courses, built with
    npm start
    ```
 
-4. **Access Applications Locally:**
-   ```bash
-   Backend: http://localhost:8000
-   Frontend: http://localhost:3000
-   ```
+## Access Application Locally
 
-## Project Structure
-
+```bash
+Backend: http://localhost:8000
+Frontend: http://localhost:3000
 ```
-student-management/
-├── backend/          # Django backend
-│   ├── api/          # API endpoints
-│   └── config/       # Django settings
-├── frontend/         # React frontend
-├── docker-compose.yml
-└── README.md
-```
-
-## Testing
-
-Backend tests:
-docker-compose run backend python manage.py test
-
-Frontend tests:
-docker-compose run frontend npm test
 
 ## Future Improvements
 
+- Testing Scripts
 - Implement user authentication
 - Add search functionality
 - Export reports feature

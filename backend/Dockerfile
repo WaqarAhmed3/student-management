@@ -32,6 +32,9 @@ COPY . .
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
+# Stop MySQL process inside the container
+RUN pkill -9 mysql || true && rm -rf /var/run/mysqld/mysqld.sock
+
 # Expose port 8000 for the backend
 EXPOSE 8000
 
