@@ -93,47 +93,8 @@ student-management/
    git clone https://github.com/WaqarAhmed3/student-management.git
    cd student-management
    ```
-
-2. **Create and configure .env file**
-
-   Create a .env file in the root directory and add the following content:
-
-   ```bash
-   # General
-   DEBUG=True
-   SECRET_KEY=your-very-secure-secret-key
-
-   # Database
-   DATABASE_ENGINE=django.db.backends.mysql
-   DATABASE_NAME=student_management_db
-   DATABASE_USER=root
-   DATABASE_PASSWORD=
-   # DATABASE_HOST=localhost
-   DATABASE_HOST=db
-   DATABASE_PORT=3306
-   PRODUCTION=false
-
-   # Django Allowed Hosts
-   ALLOWED_HOSTS=localhost,127.0.0.1
-
-   # CORS Settings
-   CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
-
-   # React Environment Variables (for frontend)
-   # Development
-   DOCKER_TARGET=development
-   FRONTEND_PORT=3000
-   CONTAINER_PORT=3000
-   REACT_APP_API_URL=http://localhost:8000/api
-
-   # Production (uncomment when needed)
-   # DOCKER_TARGET=production
-   # CONTAINER_PORT=80
-   # FRONTEND_PORT=80
-   # REACT_APP_API_URL=http://backend:8000/api
-   ```
-
-3. **Build and start containers (From the root directory (student-management/))**
+   
+2. **Build and start containers (From the root directory (student-management/))**
 
    ```bash
    docker-compose up
@@ -141,26 +102,26 @@ student-management/
 
    This command builds the Docker images and starts the backend, frontend, and database services.
 
-4. **Access the applications**
+3. **Access the applications**
 
    - Frontend: http://localhost:3000
    - Backend API: http://localhost:8000/api
    - Admin Panel: http://localhost:8000/admin
 
-5. **Create superuser (in separate terminal)**
+4. **Create superuser (in separate terminal)**
 
    ```bash
    docker-compose exec backend python manage.py createsuperuser
    ```
 
-6. **Run migrations (if needed)**
+5. **Run migrations (if needed)**
    To run Django management commands (e.g., migrations) inside the backend container, use:
 
    ```bash
    docker-compose exec backend python manage.py migrate
    ```
 
-7. **Stopping the Containers**
+6. **Stopping the Containers**
    Press Ctrl+C in the terminal where Docker Compose is running or execute:
 
    ```bash
