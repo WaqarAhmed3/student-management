@@ -37,3 +37,6 @@ env/
 
 # Ignore node_modules (if using React in the same repo)
 node_modules/
+
+# Ignore collected static files
+staticfiles/
